@@ -1,0 +1,6 @@
+import typing
+
+from aiollm.response_formats.json_schema_response_format import JsonSchemaResponseFormat
+from aiollm.response_formats.text_response_format import TextResponseFormat
+
+ResponseFormat = typing.Union[TextResponseFormat, JsonSchemaResponseFormat]
