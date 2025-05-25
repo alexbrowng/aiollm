@@ -23,12 +23,7 @@ async def run():
 
     thread = [
         SystemMessage(content="You are a helpful assistant."),
-        UserMessage(
-            content=[
-                TextContent(text="What is the content of the image?"),
-                ImageContent(source=image),
-            ]
-        ),
+        UserMessage(content=[TextContent(text="What is the content of the image?"), ImageContent(source=image)]),
     ]
 
     model = Model(id="us.anthropic.claude-3-7-sonnet-20250219-v1:0", name="Claude 3.7 Sonnet", provider="Bedrock")

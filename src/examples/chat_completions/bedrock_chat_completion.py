@@ -1,7 +1,6 @@
 import asyncio
 
 from aiollm.chat_completion_events.to_chat_completion import ToChatCompletion
-from aiollm.contents.text_content import TextContent
 from aiollm.messages.system_message import SystemMessage
 from aiollm.messages.user_message import UserMessage
 from aiollm.models.model import Model
@@ -15,7 +14,7 @@ async def run():
 
     thread = [
         SystemMessage(content="You are a helpful assistant."),
-        UserMessage(content=[TextContent(text="What is the weather in Tokyo?")]),
+        UserMessage(content="What is the weather in Tokyo?"),
     ]
 
     model = Model(id="us.anthropic.claude-3-7-sonnet-20250219-v1:0", name="Claude 3.7 Sonnet", provider="Bedrock")

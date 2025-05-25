@@ -23,12 +23,7 @@ async def run():
 
     messages = [
         SystemMessage(content="You are a helpful assistant."),
-        UserMessage(
-            content=[
-                TextContent(text="What is the content of the image?"),
-                ImageContent(source=image),
-            ]
-        ),
+        UserMessage(content=[TextContent(text="What is the content of the image?"), ImageContent(source=image)]),
     ]
 
     model = Model(id="amazon/nova-lite-v1", name="Nova Lite", provider="OpenRouter")

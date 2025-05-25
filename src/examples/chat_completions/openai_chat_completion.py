@@ -1,7 +1,6 @@
 import asyncio
 
 from aiollm.chat_completion_events.to_chat_completion import ToChatCompletion
-from aiollm.contents.text_content import TextContent
 from aiollm.messages.system_message import SystemMessage
 from aiollm.messages.user_message import UserMessage
 from aiollm.models.model import Model
@@ -16,7 +15,7 @@ async def run():
 
     messages = [
         SystemMessage(content="You are a helpful assistant."),
-        UserMessage(content=[TextContent(text="What is the weather in Tokyo?")]),
+        UserMessage(content="What is the weather in Tokyo?"),
     ]
 
     model = Model(id="gpt-4.1-nano-2025-04-14", name="GPT 4.1 nano", provider="OpenAI")

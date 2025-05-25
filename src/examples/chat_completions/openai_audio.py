@@ -23,12 +23,7 @@ async def run():
 
     messages = [
         SystemMessage(content="You are a helpful assistant."),
-        UserMessage(
-            content=[
-                TextContent(text="What is the content of the audio?"),
-                AudioContent(source=audio),
-            ]
-        ),
+        UserMessage(content=[TextContent(text="What is the content of the audio?"), AudioContent(source=audio)]),
     ]
 
     model = Model(id="gpt-4o-audio-preview-2024-10-01", name="GPT 4o mini", provider="OpenAI")
