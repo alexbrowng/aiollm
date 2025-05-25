@@ -1,6 +1,6 @@
-import json
 import typing
 
+import json_repair
 from openai.types.chat.chat_completion import ChatCompletion as OpenAIChatCompletion
 
 from aiollm.chat_completions.chat_completion import ChatCompletion
@@ -49,7 +49,7 @@ class ToChatCompletion:
                 ToolCall(
                     id=tool_call.id,
                     name=tool_call.function.name,
-                    arguments=json.loads(tool_call.function.arguments),
+                    arguments=typing.cast(dict, json_repair.loads(tool_call.function.arguments or "{}")),
                 )
                 for tool_call in choice.message.tool_calls or []
             ],

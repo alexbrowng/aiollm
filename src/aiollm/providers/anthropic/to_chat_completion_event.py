@@ -1,6 +1,6 @@
-import json
 import typing
 
+import json_repair
 from anthropic import AsyncStream
 from anthropic.types import MessageStreamEvent
 
@@ -48,7 +48,7 @@ class ToChatCompletionEvent:
             ChatCompletionEventFactory.tool_call(
                 id=tool_call.get("id", ""),
                 name=tool_call.get("name", ""),
-                arguments=json.loads(tool_call.get("arguments", "{}")),
+                arguments=typing.cast(dict, json_repair.loads(tool_call.get("arguments") or "{}")),
             )
             for tool_call in self._tool_calls
         ]
@@ -87,6 +87,7 @@ class ToChatCompletionEvent:
                 if self._tool_calls:
                     for tool_call_event in self._tool_call_events():
                         yield tool_call_event
+
                     yield self._finish_event(finish_reason="tool_calls")
                 else:
                     yield self._finish_event(finish_reason="stop")

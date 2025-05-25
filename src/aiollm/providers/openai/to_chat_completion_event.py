@@ -1,6 +1,6 @@
-import json
 import typing
 
+import json_repair
 from openai.types.chat.chat_completion_chunk import ChatCompletionChunk, ChoiceDeltaToolCall
 from openai.types.completion_usage import CompletionUsage
 
@@ -47,7 +47,7 @@ class ToChatCompletionEvent:
             ChatCompletionEventFactory.tool_call(
                 id=tool_call.get("id", ""),
                 name=tool_call.get("name", ""),
-                arguments=json.loads(tool_call.get("arguments", "{}")),
+                arguments=typing.cast(dict, json_repair.loads(tool_call.get("arguments") or "{}")),
             )
             for tool_call in self._tool_calls.values()
         ]

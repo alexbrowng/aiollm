@@ -1,6 +1,6 @@
-import json
 import typing
 
+import json_repair
 from types_aiobotocore_bedrock_runtime.type_defs import (
     ConverseStreamResponseTypeDef,
     TokenUsageTypeDef,
@@ -57,7 +57,7 @@ class ToChatCompletionEvent:
             ChatCompletionEventFactory.tool_call(
                 id=tool_call.get("id", ""),
                 name=tool_call.get("name", ""),
-                arguments=json.loads(tool_call.get("arguments", "{}")),
+                arguments=typing.cast(dict, json_repair.loads(tool_call.get("arguments") or "{}")),
             )
             for tool_call in self._tool_calls
         ]
