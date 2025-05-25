@@ -38,7 +38,7 @@ class Tools:
     ):
         def decorator(handler: Handler) -> Handler:
             tool_name = name or handler.__name__
-            tool_description = description or handler.__doc__
+            tool_description = description or handler.__doc__ or ""
             tool = Tool(name=tool_name, description=tool_description, parameters=parameters, strict=strict)
             self._tools.append(tool)
 
