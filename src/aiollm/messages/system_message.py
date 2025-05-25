@@ -1,10 +1,12 @@
 import dataclasses
 import typing
 
+from aiollm.contents.text_content import TextContent
+
 
 @dataclasses.dataclass(frozen=True, slots=True)
 class SystemMessage:
-    content: str
+    content: str | typing.Sequence[TextContent]
     name: str | None = None
     role: typing.Literal["system"] = "system"
 

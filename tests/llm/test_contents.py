@@ -1,5 +1,6 @@
 from aiollm.contents.image_content import ImageContent
 from aiollm.contents.text_content import TextContent
+from aiollm.sources.base64_source import Base64Source
 
 
 def test_text_content_creation():
@@ -9,7 +10,7 @@ def test_text_content_creation():
 
 
 def test_image_content_creation():
-    content = ImageContent(url="http://img", detail="low")
-    assert content.url == "http://img"
+    content = ImageContent(source=Base64Source(data="abc", media_type="image/png"), detail="low")
+    assert content.source.url == "data:image/png;base64,abc"
     assert content.detail == "low"
     assert content.type == "image"

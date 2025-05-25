@@ -1,3 +1,5 @@
+import typing
+
 from aiollm.messages.assistant_message import AssistantMessage
 from aiollm.messages.tool_message import ToolMessage
 from aiollm.messages.user_message import UserMessage
@@ -10,7 +12,7 @@ class History:
         self._include_tool_calls = include_tool_calls
         self._max_turns = max_turns
 
-    def __iter__(self):
+    def __iter__(self) -> typing.Iterator[UserMessage | AssistantMessage | ToolMessage]:
         messages: list[UserMessage | AssistantMessage | ToolMessage] = []
 
         turns = list(self._thread.turns)
@@ -21,7 +23,7 @@ class History:
 
         if self._include_tool_calls:
             messages.extend(message for turn in turns for message in turn)
-        else:
+        elif turns:
             previous_turns = turns[:-1]
             messages.extend(
                 message

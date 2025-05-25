@@ -1,21 +1,21 @@
 import argparse
 import asyncio
+import typing
 
 from aiollm.chat_completion_events.chat_completion_event import ChatCompletionEvent
 from aiollm.chat_completion_events.to_chat_completion import ToChatCompletion
-from aiollm.contents.text_content import TextContent
 from aiollm.messages.message import Message
 from aiollm.messages.system_message import SystemMessage
 from aiollm.messages.user_message import UserMessage
 from aiollm.models.model import Model, ModelPrice
 from aiollm.parameters.parameters import Parameters
-from aiollm.utils.providers import load_provider_from_model
+from aiollm.providers.helpers.loader import load_provider_from_model
 
 
-async def run(model: Model, parameters: Parameters, instructions: str | None):
+async def chat(model: Model, parameters: Parameters, instructions: str | None, name: str | None = None):
     provider = load_provider_from_model(model)
 
-    messages: list[Message] = []
+    messages: typing.Sequence[Message] = []
 
     if instructions:
         messages.append(SystemMessage(content=instructions))
@@ -23,16 +23,17 @@ async def run(model: Model, parameters: Parameters, instructions: str | None):
     while True:
         prompt = input("User: ")
 
-        user_message = UserMessage(content=[TextContent(text=prompt)])
+        user_message = UserMessage(content=prompt)
         messages.append(user_message)
 
-        events: list[ChatCompletionEvent] = []
+        events: typing.Sequence[ChatCompletionEvent] = []
 
         print("Assistant: ", end="", flush=True)
         async for event in provider.chat_completion_stream(
             model=model,
             messages=messages,
             parameters=parameters,
+            name=name,
         ):
             events.append(event)
 
@@ -59,6 +60,7 @@ def main():
     parser.add_argument("--frequency-penalty", type=float, default=None)
     parser.add_argument("--presence-penalty", type=float, default=None)
     parser.add_argument("--stop", type=str, default=None)
+    parser.add_argument("--name", type=str, default=None)
 
     args = parser.parse_args()
 
@@ -86,4 +88,4 @@ def main():
         stop=args.stop,
     )
 
-    asyncio.run(run(model=model, parameters=parameters, instructions=args.instructions))
+    asyncio.run(chat(model=model, parameters=parameters, instructions=args.instructions, name=args.name))

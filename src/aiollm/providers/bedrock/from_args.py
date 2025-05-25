@@ -20,8 +20,8 @@ from aiollm.tools.tools import Tools
 
 class RequestArgs(typing.TypedDict):
     modelId: str
-    system: typing.NotRequired[list[SystemContentBlockTypeDef]]
-    messages: typing.NotRequired[list[MessageUnionTypeDef]]
+    system: typing.NotRequired[typing.Sequence[SystemContentBlockTypeDef]]
+    messages: typing.NotRequired[typing.Sequence[MessageUnionTypeDef]]
     inferenceConfig: typing.NotRequired[InferenceConfigurationTypeDef]
     toolConfig: typing.NotRequired[ToolConfigurationTypeDef]
 
@@ -30,8 +30,8 @@ class FromArgs:
     @staticmethod
     def from_args(
         model_id: str,
-        messages: list[Message],
-        tools: Tools | list[Tool] | None = None,
+        messages: typing.Sequence[Message],
+        tools: Tools | typing.Sequence[Tool] | None = None,
         parameters: Parameters | None = None,
         response_format: ResponseFormat | None = None,
     ) -> RequestArgs:

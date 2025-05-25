@@ -1,4 +1,4 @@
-from typing import Union
+import typing
 
 from aiollm.contents.image_content import ImageContent
 from aiollm.contents.text_content import TextContent
@@ -6,6 +6,7 @@ from aiollm.messages.assistant_message import AssistantMessage
 from aiollm.messages.system_message import SystemMessage
 from aiollm.messages.tool_message import ToolMessage
 from aiollm.messages.user_message import UserMessage
+from aiollm.sources.base64_source import Base64Source
 from aiollm.tools.tool_call import ToolCall
 
 
@@ -17,7 +18,7 @@ def test_system_message_creation():
 
 
 def test_user_message_with_text_content():
-    content: list[Union[TextContent, ImageContent]] = [TextContent(text="Hello!")]
+    content: typing.Sequence[TextContent | ImageContent] = [TextContent(text="Hello!")]
     msg = UserMessage(content=content, name="user1")
     assert msg.content == content
     assert msg.name == "user1"
@@ -25,11 +26,11 @@ def test_user_message_with_text_content():
 
 
 def test_user_message_with_image_content():
-    img = ImageContent(url="http://img", detail="high")
-    content: list[Union[TextContent, ImageContent]] = [img]
+    img = ImageContent(source=Base64Source(data="abc", media_type="image/png"), detail="high")
+    content: typing.Sequence[TextContent | ImageContent] = [img]
     msg = UserMessage(content=content)
     assert isinstance(msg.content[0], ImageContent)
-    assert msg.content[0].url == "http://img"
+    assert msg.content[0].source.url == "data:image/png;base64,abc"
     assert msg.content[0].detail == "high"
     assert msg.role == "user"
 

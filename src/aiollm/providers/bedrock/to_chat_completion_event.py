@@ -52,7 +52,7 @@ class ToChatCompletionEvent:
         tool_call = self._tool_calls[-1]
         tool_call["arguments"] += tool_use.get("input", "")
 
-    def _tool_call_events(self) -> list[ToolCallEvent]:
+    def _tool_call_events(self) -> typing.Sequence[ToolCallEvent]:
         return [
             ChatCompletionEventFactory.tool_call(
                 id=tool_call.get("id", ""),

@@ -5,8 +5,9 @@ from aiollm.contents.text_content import TextContent
 from aiollm.messages.assistant_message import AssistantMessage
 from aiollm.messages.system_message import SystemMessage
 from aiollm.messages.user_message import UserMessage
-from aiollm.models.model import Model
+from aiollm.models.model import Model, ModelPrice
 from aiollm.parameters.parameters import Parameters
+from aiollm.sources.base64_source import Base64Source
 from aiollm.tools.tool import Tool
 from aiollm.tools.tool_call import ToolCall
 
@@ -18,7 +19,7 @@ def make_model(
     input_price: float | None = None,
     output_price: float | None = None,
 ) -> Model:
-    return Model(id=id, name=name, provider=provider, input_price=input_price, output_price=output_price)
+    return Model(id=id, name=name, provider=provider, price=ModelPrice(input=input_price, output=output_price))
 
 
 def make_text_content(text: str = "Hello!") -> TextContent:
@@ -26,14 +27,15 @@ def make_text_content(text: str = "Hello!") -> TextContent:
 
 
 def make_image_content(
-    url: str = "https://example.com/image.png",
+    data: str = "abc",
+    media_type: str = "image/png",
     detail: typing.Literal["auto", "low", "high"] = "auto",
 ) -> ImageContent:
-    return ImageContent(url=url, detail=detail)
+    return ImageContent(source=Base64Source(data=data, media_type=media_type), detail=detail)
 
 
 def make_user_message(
-    content: typing.Optional[list[TextContent | ImageContent]] = None,
+    content: typing.Sequence[TextContent | ImageContent] | None = None,
     name: str | None = None,
 ) -> UserMessage:
     if content is None:
@@ -70,8 +72,8 @@ def make_tool_call(
 
 
 def make_assistant_message(
-    content: typing.Optional[list[TextContent]] = None,
-    tool_calls: typing.Optional[list[ToolCall]] = None,
+    content: typing.Sequence[TextContent] | None = None,
+    tool_calls: typing.Sequence[ToolCall] | None = None,
     name: str | None = None,
 ) -> AssistantMessage:
     if content is None:
@@ -87,7 +89,7 @@ def make_parameters(
     top_p: float | None = 1.0,
     frequency_penalty: float | None = 0.0,
     presence_penalty: float | None = 0.0,
-    stop: typing.Optional[list[str]] = None,
+    stop: list[str] | None = None,
 ) -> Parameters:
     return Parameters(
         max_tokens=max_tokens,

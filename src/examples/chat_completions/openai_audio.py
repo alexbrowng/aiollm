@@ -1,7 +1,7 @@
 import asyncio
 import pathlib
 
-from aiollm.contents.image_content import ImageContent
+from aiollm.contents.audio_content import AudioContent
 from aiollm.contents.text_content import TextContent
 from aiollm.messages.system_message import SystemMessage
 from aiollm.messages.user_message import UserMessage
@@ -12,26 +12,26 @@ from aiollm.response_formats.text_response_format import TextResponseFormat
 from aiollm.sources.base64_source import Base64Source
 
 BASE_PATH = pathlib.Path(__file__).parent.parent
-IMAGES_PATH = BASE_PATH / "images"
+AUDIO_PATH = BASE_PATH / "audios"
 
 
 async def run():
     llm = OpenAIProvider()
 
-    image_path = IMAGES_PATH / "tesseract_on_ocrfeeder.png"
-    image = Base64Source.from_file_path(image_path)
+    audio_path = AUDIO_PATH / "hola.mp3"
+    audio = Base64Source.from_file_path(audio_path)
 
     messages = [
         SystemMessage(content="You are a helpful assistant."),
         UserMessage(
             content=[
-                TextContent(text="What is the content of the image?"),
-                ImageContent(source=image),
+                TextContent(text="What is the content of the audio?"),
+                AudioContent(source=audio),
             ]
         ),
     ]
 
-    model = Model(id="gpt-4o-mini-2024-07-18", name="GPT 4o mini", provider="OpenAI")
+    model = Model(id="gpt-4o-audio-preview-2024-10-01", name="GPT 4o mini", provider="OpenAI")
     parameters = Parameters(max_tokens=256, temperature=0.2)
     response_format = TextResponseFormat()
     chat_completion = await llm.chat_completion(

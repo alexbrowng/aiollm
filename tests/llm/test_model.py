@@ -1,6 +1,6 @@
 import pytest
 
-from aiollm.models.model import Model
+from aiollm.models.model import Model, ModelPrice
 
 
 def test_model_creation_minimal():
@@ -8,11 +8,11 @@ def test_model_creation_minimal():
     assert model.id == "gpt-4o-mini"
     assert model.name == "GPT 4o mini"
     assert model.provider == "OpenAI"
-    assert model.input_price is None
-    assert model.output_price is None
+    assert model.price is None
 
 
 def test_model_creation_with_prices():
-    model = Model(id="gpt-4o", name="GPT 4o", provider="OpenAI", input_price=0.01, output_price=0.02)
-    assert model.input_price == pytest.approx(0.01)
-    assert model.output_price == pytest.approx(0.02)
+    model = Model(id="gpt-4o", name="GPT 4o", provider="OpenAI", price=ModelPrice(input=0.01, output=0.02))
+    assert model.price is not None
+    assert model.price.input == pytest.approx(0.01)
+    assert model.price.output == pytest.approx(0.02)

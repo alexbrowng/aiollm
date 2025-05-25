@@ -30,7 +30,7 @@ class ToChatCompletionEvent:
     def _finish_event(self, finish_reason: typing.Literal["stop", "tool_calls"]) -> FinishEvent:
         return ChatCompletionEventFactory.finish(finish_reason=finish_reason)
 
-    def _merge_tool_calls(self, tool_calls: list[ChoiceDeltaToolCall]):
+    def _merge_tool_calls(self, tool_calls: typing.Sequence[ChoiceDeltaToolCall]):
         for tool_call in tool_calls:
             if tool_call.id:
                 self._tool_calls.setdefault(tool_call.index, {}).setdefault("id", tool_call.id)
@@ -42,7 +42,7 @@ class ToChatCompletionEvent:
                 self._tool_calls.setdefault(tool_call.index, {}).setdefault("arguments", "")
                 self._tool_calls[tool_call.index]["arguments"] += tool_call.function.arguments
 
-    def _tool_call_events(self) -> list[ToolCallEvent]:
+    def _tool_call_events(self) -> typing.Sequence[ToolCallEvent]:
         return [
             ChatCompletionEventFactory.tool_call(
                 id=tool_call.get("id", ""),

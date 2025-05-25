@@ -16,8 +16,8 @@ class Provider(abc.ABC):
     def chat_completion(
         self,
         model: Model,
-        messages: list[Message],
-        tools: Tools | list[Tool] | None = None,
+        messages: typing.Sequence[Message],
+        tools: Tools | typing.Sequence[Tool] | None = None,
         response_format: ResponseFormat | None = None,
         parameters: Parameters | None = None,
         name: str | None = None,
@@ -30,8 +30,8 @@ class Provider(abc.ABC):
     def chat_completion_stream(
         self,
         model: Model,
-        messages: list[Message],
-        tools: Tools | list[Tool] | None = None,
+        messages: typing.Sequence[Message],
+        tools: Tools | typing.Sequence[Tool] | None = None,
         response_format: ResponseFormat | None = None,
         parameters: Parameters | None = None,
         name: str | None = None,

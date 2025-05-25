@@ -8,7 +8,7 @@ from typing_extensions import override
 
 
 class CreateChatCompletionEventStream(AsyncEventStream[ChatCompletionChunk]):
-    def __init__(self, chat_completion_chunks: list[dict]):
+    def __init__(self, chat_completion_chunks: typing.Sequence[dict]):
         self._chat_completion_chunks = chat_completion_chunks
 
     @override
@@ -17,7 +17,9 @@ class CreateChatCompletionEventStream(AsyncEventStream[ChatCompletionChunk]):
             yield ChatCompletionChunk.model_validate(chunk)
 
 
-def create_chat_completion_response(chat_completion_chunks: list[dict]) -> typing.Callable[[Request], Response]:
+def create_chat_completion_response(
+    chat_completion_chunks: typing.Sequence[dict],
+) -> typing.Callable[[Request], Response]:
     def create_chat_completion_event_stream(request: Request) -> Response:
         stream = CreateChatCompletionEventStream(chat_completion_chunks)
         return Response(201, content=stream, request=request)

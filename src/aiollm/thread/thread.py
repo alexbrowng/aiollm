@@ -8,7 +8,7 @@ from aiollm.thread.turns import Turns
 
 
 class Thread:
-    def __init__(self, messages: list[UserMessage | AssistantMessage | ToolMessage] | None = None):
+    def __init__(self, messages: typing.Sequence[UserMessage | AssistantMessage | ToolMessage] | None = None):
         self._turns = Turns()
 
         if messages:

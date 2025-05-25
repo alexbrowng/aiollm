@@ -1,3 +1,5 @@
+import typing
+
 from types_aiobotocore_bedrock_runtime.type_defs import ToolConfigurationTypeDef, ToolTypeDef
 
 from aiollm.tools.tool import Tool
@@ -11,10 +13,10 @@ class FromTool:
             "toolSpec": {
                 "name": tool.name,
                 "description": tool.description,
-                "inputSchema": {"json": tool.parameters},
+                "inputSchema": {"json": tool.parameters.to_primitives()},
             }
         }
 
     @staticmethod
-    def from_tools(tools: Tools | list[Tool]) -> ToolConfigurationTypeDef:
+    def from_tools(tools: Tools | typing.Sequence[Tool]) -> ToolConfigurationTypeDef:
         return {"tools": [FromTool.from_tool(tool) for tool in tools]}

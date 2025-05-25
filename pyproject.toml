@@ -21,7 +21,6 @@ dependencies = [
 
 [project.scripts]
 chat = "aiollm.cli.chat:main"
-agent = "aiollm.cli.agent:main"
 
 [dependency-groups]
 quality = [

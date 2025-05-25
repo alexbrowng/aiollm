@@ -13,7 +13,7 @@ class FromTool:
             function=FunctionDefinition(
                 name=tool.name,
                 description=tool.description,
-                parameters=dict(tool.parameters),
+                parameters=tool.parameters.to_primitives(),
                 strict=tool.strict,
             ),
         )

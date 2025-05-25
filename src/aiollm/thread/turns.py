@@ -7,8 +7,8 @@ from aiollm.thread.turn import Turn
 
 
 class Turns:
-    def __init__(self, turns: list[Turn] | None = None):
-        self._turns = turns or []
+    def __init__(self, turns: typing.Sequence[Turn] | None = None):
+        self._turns = list(turns) if turns else []
 
     def __iter__(self):
         return iter(self._turns)

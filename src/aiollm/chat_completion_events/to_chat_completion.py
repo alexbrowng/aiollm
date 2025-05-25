@@ -15,7 +15,7 @@ from aiollm.usage.usage import Usage
 
 class ToChatCompletion:
     @staticmethod
-    def from_chat_completion_events(events: list[ChatCompletionEvent]) -> ChatCompletion:
+    def from_chat_completion_events(events: typing.Sequence[ChatCompletionEvent]) -> ChatCompletion:
         finish_reason = None
         content = ""
         tool_calls = []
