@@ -2,6 +2,7 @@ from aiollm.models.model import Model
 from aiollm.providers import (
     AIMLProvider,
     AnthropicOpenAICompatibleProvider,
+    AnthropicProvider,
     BedrockProvider,
     DeepSeekProvider,
     FireworksProvider,
@@ -18,6 +19,7 @@ from aiollm.providers.provider import Provider
 
 LLM_PROVIDERS = {
     "aiml": AIMLProvider,
+    "anthropic": AnthropicProvider,
     "anthropic_openai_compatible": AnthropicOpenAICompatibleProvider,
     "bedrock": BedrockProvider,
     "deepseek": DeepSeekProvider,

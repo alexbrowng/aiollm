@@ -1,4 +1,5 @@
 from aiollm.providers.aiml.provider import AIMLProvider
+from aiollm.providers.anthropic.provider import AnthropicProvider
 from aiollm.providers.anthropic_openai_compatible.provider import AnthropicOpenAICompatibleProvider
 from aiollm.providers.bedrock.provider import BedrockProvider
 from aiollm.providers.deepseek.provider import DeepSeekProvider
@@ -14,6 +15,7 @@ from aiollm.providers.together.provider import TogetherProvider
 
 __all__ = [
     "AIMLProvider",
+    "AnthropicProvider",
     "AnthropicOpenAICompatibleProvider",
     "BedrockProvider",
     "DeepSeekProvider",
