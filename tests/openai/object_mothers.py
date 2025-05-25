@@ -2,6 +2,9 @@ import typing
 
 from aiollm.contents.image_content import ImageContent
 from aiollm.contents.text_content import TextContent
+from aiollm.json_schema.object import Object
+from aiollm.json_schema.property import Property
+from aiollm.json_schema.string import String
 from aiollm.messages.assistant_message import AssistantMessage
 from aiollm.messages.system_message import SystemMessage
 from aiollm.messages.user_message import UserMessage
@@ -53,11 +56,11 @@ def make_system_message(
 def make_tool(
     name: str = "get_weather",
     description: str = "Get the weather for a location.",
-    parameters: typing.Optional[dict] = None,
+    parameters: Object | None = None,
     strict: bool = False,
 ) -> Tool:
     if parameters is None:
-        parameters = {"location": {"type": "string", "description": "Location to get weather for."}}
+        parameters = Object(Property("location", String("Location to get weather for.")))
     return Tool(name=name, description=description, parameters=parameters, strict=strict)
 
 
